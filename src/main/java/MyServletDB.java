@@ -50,7 +50,7 @@ public class MyServletDB extends HttpServlet {
          System.out.println("Failed to make connection!");
       }
       try {
-         String selectSQL = "SELECT * FROM myTable";// WHERE MYUSER LIKE ?";
+         String selectSQL = "SELECT * FROM myStudent";// WHERE MYUSER LIKE ?";
          // String theUserName = "user%";
          response.getWriter().println(selectSQL + "<br>");
          response.getWriter().println("------------------------------------------<br>");
@@ -59,13 +59,17 @@ public class MyServletDB extends HttpServlet {
          ResultSet rs = preparedStatement.executeQuery();
          while (rs.next()) {
             String id = rs.getString("ID");
-            String username = rs.getString("MYUSER");
+            String studentID = rs.getString("STUDENTID");
+            String name = rs.getString("NAME");
             String email = rs.getString("EMAIL");
-            String phone = rs.getString("PHONE");
+            String GPA = rs.getString("GPA");
+            
             response.getWriter().append("USER ID: " + id + ", ");
-            response.getWriter().append("USER NAME: " + username + ", ");
-            response.getWriter().append("USER EMAIL: " + email + ", ");
-            response.getWriter().append("USER PHONE: " + phone + "<br>");
+            response.getWriter().append("USER NAME: " + studentID + ", ");
+            response.getWriter().append("USER NAME: " + name + ", ");
+            response.getWriter().append("USER EMAIL: " + name + ", ");
+            response.getWriter().append("USER PHONE: " + email + "<br>");
+            response.getWriter().append("USER PHONE: " + GPA + "<br>");
          }
       } catch (SQLException e) {
          e.printStackTrace();

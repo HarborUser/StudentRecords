@@ -15,15 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/SimpleFormInsert")
 public class SimpleFormInsert extends HttpServlet {
-   
+	
    public SimpleFormInsert() {
       super();
    }
 
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      String userName = request.getParameter("userName");
+      ////String userName = request.getParameter("userName");
+     // String email = request.getParameter("email");
+      //String phone = request.getParameter("phone");
+      String StudentID = request.getParameter("StudentID");
+      String name = request.getParameter("name");
       String email = request.getParameter("email");
-      String phone = request.getParameter("phone");
+      String GPA = request.getParameter("GPA");
       //String StudentID 
       // Name
       // Year
@@ -31,15 +35,17 @@ public class SimpleFormInsert extends HttpServlet {
       // 
 
       Connection connection = null;
-      String insertSql = " INSERT INTO myTable (id, MYUSER, EMAIL, PHONE) values (default, ?, ?, ?)";
+      String insertSql = " INSERT INTO myStudent (id, STUDENTID, NAME, EMAIL, GPA) values (default, ?, ?, ?,?)";
 
       try {
          DBConnection.getDBConnection(getServletContext());
          connection = DBConnection.connection;
          PreparedStatement preparedStmt = connection.prepareStatement(insertSql);
-         preparedStmt.setString(1, userName);
-         preparedStmt.setString(2, email);
-         preparedStmt.setString(3, phone);
+         //preparedStmt.setString(1, userName);
+         preparedStmt.setString(1, StudentID);
+         preparedStmt.setString(2, name);
+         preparedStmt.setString(3, email);
+         preparedStmt.setString(4, GPA);
          preparedStmt.execute();
          connection.close();
       } catch (Exception e) {
@@ -58,13 +64,14 @@ public class SimpleFormInsert extends HttpServlet {
             "<h2 align=\"center\">" + title + "</h2>\n" + //
             "<ul>\n" + //
 
-            "  <li><b>User Name</b>: " + userName + "\n" + //
-            "  <li><b>Email</b>: " + email + "\n" + //
-            "  <li><b>Phone</b>: " + phone + "\n" + //
+            "  <li><b> Name</b>: " + StudentID + "\n" + //
+            "  <li><b>Email</b>: " + name + "\n" + //
+            "  <li><b>Phone</b>: " + email + "\n" + //
+            "  <li><b>GPA</b>: " + GPA + "\n" + //
 
             "</ul>\n");
 
-      out.println("<a href=/webproject/simpleFormSearch.html>Search Data</a> <br>");
+      out.println("<a href=/StudentRecords/simpleFormSearch.html>Search Data</a> <br>");
       out.println("</body></html>");
    }
 

@@ -13,12 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/SimpleFormSearch")
 public class SimpleFormSearch extends HttpServlet {
-   private static final long serialVersionUID = 1L;
-   static String url = "jdbc:mysql://34.170.65.43:3306/myDB" + "?" + //
-	         "allowPublicKeyRetrieval=true" + "&" + "useSSL=false";
-   static String user = "newmysqlremoteuser"; // e.g., newmysqlremoteuser
-   static String password = "mypassword"; // e.g., mypassword
-   static Connection connection = null;
+   
    public SimpleFormSearch() {
       super();
    }
@@ -37,7 +32,7 @@ public class SimpleFormSearch extends HttpServlet {
       out.println(docType + //
             "<html>\n" + //
             "<head><title>" + title + "</title></head>\n" + //
-            "<body bgcolor=\"#f0f0f0\">\n" + //
+            "<body bgcolor=\"#839192\">\n" + //
             "<h1 align=\"center\">" + title + "</h1>\n");
 
       Connection connection = null;
@@ -47,30 +42,42 @@ public class SimpleFormSearch extends HttpServlet {
          connection = DBConnection.connection;
 
          if (keyword.isEmpty()) {
-            String selectSQL = "SELECT * FROM myTable";
+            String selectSQL = "SELECT * FROM myStudent";
             preparedStatement = connection.prepareStatement(selectSQL);
          } else {
-            String selectSQL = "SELECT * FROM myTable WHERE MYUSER LIKE ?";
+            String selectSQL = "SELECT * FROM myStudent WHERE STUDENTID LIKE ?";
             String theUserName = keyword + "%";
             preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setString(1, theUserName);
          }
          ResultSet rs = preparedStatement.executeQuery();
-
+         System.out.println("Error Check");
          while (rs.next()) {
             int id = rs.getInt("id");
-            String userName = rs.getString("myuser").trim();
-            String email = rs.getString("email").trim();
-            String phone = rs.getString("phone").trim();
-
-            if (keyword.isEmpty() || userName.contains(keyword)) {
+            System.out.println("Error Check");
+            //String userName = rs.getString("myuser").trim();
+            //String email = rs.getString("email").trim();
+            //String phone = rs.getString("phone").trim();
+            
+            String StudentID = rs.getString("StudentID").trim();
+            String name = rs.getString("name").trim();
+            String gmail = rs.getString("email").trim();
+            String GPA = rs.getString("GPA").trim();
+            System.out.println("Error Check");
+            //String StudentID = request.getParameter("Student ID: ");
+            //String name = request.getParameter("Name: ");
+            //String email = request.getParameter("email: ");
+           // String GPA = request.getParameter("GPA: ");
+            if (keyword.isEmpty() || StudentID.contains(keyword)) {
+            	System.out.println("Error Check");
                out.println("ID: " + id + ", ");
-               out.println("User: " + userName + ", ");
-               out.println("Email: " + email + ", ");
-               out.println("Phone: " + phone + "<br>");
+               out.println("StudentID: " + StudentID + ", ");
+               out.println("Name: " + name + ", ");
+               out.println("Email: " + gmail + ", ");
+               out.println("GPA: " + GPA + "<br>");
             }
          }
-         out.println("<a href=/webproject/simpleFormSearch.html>Search Data</a> <br>");
+         out.println("<a href=/StudentRecords/simpleFormSearch.html>Search Data</a> <br>");
          out.println("</body></html>");
          rs.close();
          preparedStatement.close();
